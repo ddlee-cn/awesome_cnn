@@ -60,3 +60,5 @@ target/
 
 data/data-*
 logs/
+saved-models/
+.vscode/

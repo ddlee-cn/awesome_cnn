@@ -14,9 +14,11 @@ import sys
 
 from fashionmnist import FashionMNIST
 
-#sys.path.append('../')
-#from models import *
-#import experiments.utils as utils
+this_dir = os.path.dirname(__file__)
+sys.path.insert(0, os.path.join(this_dir, '..'))
+
+import models
+import experiments.utils as utils
 
 # parse args
 def parse_arg():
@@ -90,7 +92,7 @@ def prepare_data(args, cuda):
     # Create dataloaders. Use pin memory if cuda.
     kwargs = {'pin_memory': True} if cuda else {}
     if(args.data == 'mnist'):
-        trainset = datasets.MNIST('../data/data-mnist', train=True,
+        trainset = datasets.MNIST('./data/data-mnist', train=True,
                                 download=True, transform=train_transforms)
         train_loader = DataLoader(trainset, batch_size=args.batch_size,
                                 shuffle=True, num_workers=args.nworkers, **kwargs)
@@ -100,11 +102,11 @@ def prepare_data(args, cuda):
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
     else:
         trainset = FashionMNIST(
-            '../data/data-fashion-mnist/', train=True, download=True, transform=train_transforms)
+            './data/data-fashion-mnist/', train=True, download=True, transform=train_transforms)
         train_loader = DataLoader(trainset, batch_size=args.batch_size,
                                 shuffle=True, num_workers=args.nworkers, **kwargs)
         valset = FashionMNIST(
-            '../data/data-fashion-mnist/', train=False, transform=val_transforms)
+            './data/data-fashion-mnist/', train=False, transform=val_transforms)
         val_loader = DataLoader(valset, batch_size=args.batch_size,
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
     return train_loader, val_loader
@@ -157,8 +159,7 @@ def main():
     logfile, run = config_envs(args, cuda)
     train_loader, val_loader = prepare_data(args, cuda)
 
-    net = model.__dict__[args.model]()
-    print(net)
+    net = models.__dict__[args.model]()
     criterion = torch.nn.CrossEntropyLoss()
 
     if cuda:
