@@ -7,12 +7,16 @@ from torch.autograd import Variable
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
-import model
-import utils
 import time
 import argparse
 import os
+import sys
 
+from fashionmnist import FashionMNIST
+
+#sys.path.append('../')
+#from models import *
+#import experiments.utils as utils
 
 # parse args
 def parse_arg():
@@ -86,21 +90,21 @@ def prepare_data(args, cuda):
     # Create dataloaders. Use pin memory if cuda.
     kwargs = {'pin_memory': True} if cuda else {}
     if(args.data == 'mnist'):
-        trainset = datasets.MNIST('data-mnist', train=True,
+        trainset = datasets.MNIST('../data/data-mnist', train=True,
                                 download=True, transform=train_transforms)
         train_loader = DataLoader(trainset, batch_size=args.batch_size,
                                 shuffle=True, num_workers=args.nworkers, **kwargs)
-        valset = datasets.MNIST('data-mnist', train=False,
+        valset = datasets.MNIST('./data/data-mnist', train=False,
                                 transform=val_transforms)
         val_loader = DataLoader(valset, batch_size=args.batch_size,
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
     else:
-        trainset = datasets.FashionMNIST(
-            'data', train=True, download=True, transform=train_transforms)
+        trainset = FashionMNIST(
+            '../data/data-fashion-mnist/', train=True, download=True, transform=train_transforms)
         train_loader = DataLoader(trainset, batch_size=args.batch_size,
                                 shuffle=True, num_workers=args.nworkers, **kwargs)
-        valset = datasets.FashionMNIST(
-            'data', train=False, transform=val_transforms)
+        valset = FashionMNIST(
+            '../data/data-fashion-mnist/', train=False, transform=val_transforms)
         val_loader = DataLoader(valset, batch_size=args.batch_size,
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
     return train_loader, val_loader
