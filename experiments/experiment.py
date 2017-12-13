@@ -7,6 +7,7 @@ from torch.autograd import Variable
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from torchvision import datasets
+import torch.backends.cudnn as cudnn
 import time
 import argparse
 import os
@@ -35,6 +36,8 @@ def parse_arg():
     parser.add_argument("--seed", type=int, default=1, help="random seed")
     parser.add_argument("--data", type=str, default='fashion',
                         help="mnist or fashion")
+    parser.add_argument("--gpus", type=list, default=[4,5,6],
+                        help="gpu ids for training")
     args = parser.parse_args()
     # check cuda
     cuda = not args.nocuda and torch.cuda.is_available()  # use cuda
@@ -131,7 +134,8 @@ def train(net, loader, criterion, optimizer, cuda):
         optimizer.step()
         running_loss += loss.data[0]
         # get the index of the max log-probability
-        pred = output.data.max(1, keepdim=True)[1]
+        _, pred = torch.max(output.data, 1) 
+        #pred = output.data.max(1, keepdim=True)[1]
         running_accuracy += pred.eq(y.data.view_as(pred)).cpu().sum()
     return running_loss / len(loader), running_accuracy / len(loader.dataset)
 
@@ -149,7 +153,8 @@ def validate(net, loader, criterion, cuda):
         loss = criterion(output, y)
         running_loss += loss.data[0]
         # get the index of the max log-probability
-        pred = output.data.max(1, keepdim=True)[1]
+        _, pred = torch.max(output.data, 1) 
+        #pred = output.data.max(1, keepdim=True)[1]
         running_accuracy += pred.eq(y.data.view_as(pred)).cpu().sum()
     return running_loss / len(loader), running_accuracy / len(loader.dataset)
 
@@ -163,7 +168,9 @@ def main():
     criterion = torch.nn.CrossEntropyLoss()
 
     if cuda:
-        net, criterion = net.cuda(), criterion.cuda()
+        net = torch.nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
+        cudnn.benchmark = True
+        criterion = net.cuda()
     # early stopping parameters
     patience = args.patience
     best_loss = 1e4
