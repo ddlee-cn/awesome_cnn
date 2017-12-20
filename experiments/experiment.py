@@ -28,13 +28,13 @@ def parse_arg():
                         default='FashionSimpleNet', help="model")
     parser.add_argument("--patience", type=int, default=5,
                         help="early stopping patience")
-    parser.add_argument("--batch_size", type=int, default=64, help="batch size")
+    parser.add_argument("--batch_size", type=int, default=128, help="batch size")
     parser.add_argument("--nepochs", type=int, default=50, help="max epochs")
     parser.add_argument("--nocuda", action='store_true', help="no cuda used")
     parser.add_argument("--nworkers", type=int, default=16,
                         help="number of workers")
     parser.add_argument("--seed", type=int, default=1, help="random seed")
-    parser.add_argument("--data", type=str, default='fashion',
+    parser.add_argument("--data", type=str, default='cifar',
                         help="mnist or fashion")
     parser.add_argument("--gpus", type=list, default=[0,4,5,6],
                         help="gpu ids for training")
@@ -103,7 +103,7 @@ def prepare_data(args, cuda):
                                 transform=val_transforms)
         val_loader = DataLoader(valset, batch_size=args.batch_size,
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
-    else:
+    elif(args.data == 'fashion'):
         trainset = FashionMNIST(
             './data/data-fashion-mnist/', train=True, download=True, transform=train_transforms)
         train_loader = DataLoader(trainset, batch_size=args.batch_size,
@@ -112,6 +112,15 @@ def prepare_data(args, cuda):
             './data/data-fashion-mnist/', train=False, transform=val_transforms)
         val_loader = DataLoader(valset, batch_size=args.batch_size,
                                 shuffle=False, num_workers=args.nworkers, **kwargs)
+    elif(args.data == 'cifar'):
+        trainset = datasets.CIFAR10('./data/cifar', train=True,
+                                    download=True, transform=train_transforms)
+        train_loader = DataLoader(trainset, batch_size=args.batch_size,
+                                    shuffle=True, num_workers=args.nworkers, **kwargs)
+        valset = datasets.CIFAR10('./data/cifar', train=False,
+                                transform=val_transforms)
+        val_loader = DataLoader(valset, batch_size=args.batch_size,
+                                shuffle=False, num_workers=args.nworkers, **kwargs)                                    
     return train_loader, val_loader
 
 def train(net, loader, criterion, optimizer, cuda):
