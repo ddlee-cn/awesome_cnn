@@ -29,14 +29,14 @@ def parse_arg():
     parser.add_argument("--patience", type=int, default=5,
                         help="early stopping patience")
     parser.add_argument("--batch_size", type=int, default=64, help="batch size")
-    parser.add_argument("--nepochs", type=int, default=200, help="max epochs")
+    parser.add_argument("--nepochs", type=int, default=50, help="max epochs")
     parser.add_argument("--nocuda", action='store_true', help="no cuda used")
-    parser.add_argument("--nworkers", type=int, default=4,
+    parser.add_argument("--nworkers", type=int, default=16,
                         help="number of workers")
     parser.add_argument("--seed", type=int, default=1, help="random seed")
     parser.add_argument("--data", type=str, default='fashion',
                         help="mnist or fashion")
-    parser.add_argument("--gpus", type=list, default=[4,5,6],
+    parser.add_argument("--gpus", type=list, default=[0,4,5,6],
                         help="gpu ids for training")
     args = parser.parse_args()
     # check cuda
@@ -82,7 +82,7 @@ def prepare_data(args, cuda):
     print('Preparing data..')
     train_transforms = transforms.Compose([
         #    transforms.RandomCrop(32, padding=4),
-        #transforms.RandomHorizontalFlip(),
+        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         #    transforms.Normalize((0.1307,), (0.3081,)),
     ])
@@ -121,6 +121,7 @@ def train(net, loader, criterion, optimizer, cuda):
     net.train()
     running_loss = 0
     running_accuracy = 0
+    print('total batch:', len(loader))
     for i, (X, y) in enumerate(loader):
         if cuda:
             X, y = X.cuda(), y.cuda()
@@ -135,7 +136,9 @@ def train(net, loader, criterion, optimizer, cuda):
         # get the index of the max log-probability
         _, pred = torch.max(output.data, 1) 
         #pred = output.data.max(1, keepdim=True)[1]
-        running_accuracy += pred.eq(y.data.view_as(pred)).cpu().sum()
+        acc = pred.eq(y.data.view_as(pred)).cpu().sum()
+        running_accuracy += acc
+        print('batch/', i, '|loss/', loss.data[0], '|acc/', acc)
     return running_loss / len(loader), running_accuracy / len(loader.dataset)
 
 
@@ -167,9 +170,9 @@ def main():
     criterion = torch.nn.CrossEntropyLoss()
 
     if cuda:
-        net = torch.nn.DataParallel(net, device_ids=range(torch.cuda.device_count()))
+        net = torch.nn.DataParallel(net, device_ids=args.gpus)
         cudnn.benchmark = True
-        criterion = net.cuda()
+        net, criterion = net.cuda(), criterion.cuda()
     # early stopping parameters
     patience = args.patience
     best_loss = 1e4
