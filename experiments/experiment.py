@@ -121,7 +121,6 @@ def train(net, loader, criterion, optimizer, cuda):
     net.train()
     running_loss = 0
     running_accuracy = 0
-    print("total batch: ", len(loader))
     for i, (X, y) in enumerate(loader):
         if cuda:
             X, y = X.cuda(), y.cuda()
@@ -137,7 +136,6 @@ def train(net, loader, criterion, optimizer, cuda):
         _, pred = torch.max(output.data, 1) 
         #pred = output.data.max(1, keepdim=True)[1]
         running_accuracy += pred.eq(y.data.view_as(pred)).cpu().sum()
-        print('batch/'+str(i)+':accuracy/'+str(running_accuracy/len(loader.dataset))+'|loss/'+str(running_loss/len(loader)))
     return running_loss / len(loader), running_accuracy / len(loader.dataset)
 
 
