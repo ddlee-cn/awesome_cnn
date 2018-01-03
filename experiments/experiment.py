@@ -36,7 +36,7 @@ def parse_arg():
     parser.add_argument("--seed", type=int, default=1, help="random seed")
     parser.add_argument("--data", type=str, default='cifar',
                         help="mnist or fashion")
-    parser.add_argument("--gpus", type=list, default=[0,4,5,6],
+    parser.add_argument("--gpus", type=list, default=[0,6],
                         help="gpu ids for training")
     args = parser.parse_args()
     # check cuda
