@@ -9,7 +9,8 @@ from .inception import Inception3
 from .vgg import VGG16, VGG19
 from .resnext import ResNeXt29_2x64d, ResNeXt29_32x4d
 from .densenet import *
+from .mobilenet import MobileNet
 
 __all__ = ['SimpleNet', 'ResNet18', 'ResNet50', 'LeNet', 'AlexNet', 'SqueezeNet', 'GoogLeNet',
            'Inception3', 'VGG16', 'VGG19', 'PreActResNet18', 'PreActResNet50', 'ResNeXt29_2x64d', 'ResNeXt29_32x4d',
-           'densenet121', 'densenet169', 'densenet201', 'densenet161']
+           'densenet121', 'densenet169', 'densenet201', 'densenet161', 'MobileNet']
