@@ -1,6 +1,6 @@
-NN_structures
+## NN_structures
 
-A collection of CNN network structures, implemented in PyTorch, tested on CIFAR-10 dataset.
+A collection of CNN network structures, implemented in PyTorch, tested on CIFAR-10 dataset and visualized with NetScope.
 
 
 PyTorch Implementation|PaperNotes|Paper|Netscope|Proposed Date
@@ -14,7 +14,7 @@ Inception-ResNet |[Inception-v4, Inception-ResNet and the Impact of Residual Con
 [ResNet](https://github.com/ddlee96/NN_structures/blob/master/models/resnet.py) | [Deep Residual Learning for Image Recognition](https://blog.ddlee.cn/2017/04/30/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0-Deep-Residual-Learning-for-Image-Recognition/) | [arxiv](http://arxiv.org/abs/1512.03385) | [Visualization](http://ethereon.github.io/netscope/#/gist/fd5ab897623abec94c4027731ce4e80f) | 15.12
 [GoogLeNet](https://github.com/ddlee96/NN_structures/blob/master/models/googlenet.py) | [Going deeper with convolutions](https://blog.ddlee.cn/2017/11/30/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0-Going-deeper-with-convolutions/) | [arxiv](https://arxiv.org/abs/1409.4842) | [Visualization](http://ethereon.github.io/netscope/#/gist/db8754ee4b239920b3df5ab93220a84b) | 14.09
 [VGG](https://github.com/ddlee96/NN_structures/blob/master/models/vgg.py)| Very Deep Convolutional Networks for Large-Scale Image Recognition |[arxiv](https://arxiv.org/abs/1409.1556)|[Visualization](http://ethereon.github.io/netscope/#/gist/f671dfd1c382b4b86c9fed14021b4764) | 14.09
-[AlexNet](https://github.com/ddlee96/NN_structures/blob/master/models/alexnet.py) | ImageNet Classification with Deep ConvolutionalNeural Networks |[NIPS](chrome-extension://oemmndcbldboiebfnladdacbdfmadadm/https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) | [Visualization](http://ethereon.github.io/netscope/#/gist/7c508f9dfa679ee9be936f8fe16b9715) | -
+[AlexNet](https://github.com/ddlee96/NN_structures/blob/master/models/alexnet.py) | ImageNet Classification with Deep ConvolutionalNeural Networks |[NIPS](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf) | [Visualization](http://ethereon.github.io/netscope/#/gist/7c508f9dfa679ee9be936f8fe16b9715) | -
 
 
 ### To be added
