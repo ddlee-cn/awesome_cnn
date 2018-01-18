@@ -10,8 +10,8 @@ Inception-ResNet-v2 Netscope: http://ethereon.github.io/netscope/#gist/aadd97383
 
 #### Inception-v4
 
-![inception-v4](Inception_v4_arch.jpng)
+![inception-v4](Inception_v4_arch.jpg)
 
 #### Inception-ResNet-v2
 
-![inception-resnet](inception_resnet_arch.jpg)
+![inception-resnet](inception_resnet_v2_arch.jpg)

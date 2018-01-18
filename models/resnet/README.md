@@ -7,3 +7,7 @@ Netscope: http://ethereon.github.io/netscope/#/gist/fd5ab897623abec94c4027731ce4
 ### Model Details
 
 ![resent_arch](resnet_arch.png)
+
+
+Residual Block
+![residual_block](residual_block.png)
