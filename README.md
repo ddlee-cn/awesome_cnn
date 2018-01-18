@@ -16,6 +16,16 @@ git clone https://github.com/ddlee96/awesome_cnn.git
 
 2.Install PyTorch and TorchVision following instructions on [PyTorch](https://pytorch.org) website.
 
+(Optional)Install dependencies using [pipenv](https://docs.pipenv.org):
+
+```
+pip install pipenv
+cd awesome_cnn
+pipenv install
+```
+
+pipenv will install dependencies based on Pipfile. You can also modify this Pipfile to match your environment.
+
 3.Prepare dataset
 
 ```
@@ -29,7 +39,7 @@ Then just run `python experiments/experiment.py --data cifar`, it will create `d
 4.Start Training
 
 ```
-python experiments/experiment.py --model resnet50 --data cifar --batch_size 182
+python experiments/experiment.py --model resnet50 --data cifar --batch_size 182 --gpus 0,1,2,3
 ```
 It will train model ResNet50 on cifar10 with batch size 128. More options can be find in `experiment.py`.
 

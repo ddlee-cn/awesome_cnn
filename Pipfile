@@ -1,0 +1,22 @@
+[[source]]
+
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[dev-packages]
+
+
+
+[packages]
+
+numpy = "*"
+matplotlib = "*"
+"344cdaf" = {file = "http://download.pytorch.org/whl/cu80/torch-0.3.0.post4-cp36-cp36m-linux_x86_64.whl"}
+torchvision = "*"
+
+
+[requires]
+
+python_version = "3.6"

@@ -36,7 +36,7 @@ def parse_arg():
     parser.add_argument("--seed", type=int, default=1, help="random seed")
     parser.add_argument("--data", type=str, default='cifar',
                         help="mnist or fashion")
-    parser.add_argument("--gpus", type=list, default=[0,6],
+    parser.add_argument("--gpus", type=str, default='4,5,6',
                         help="gpu ids for training")
     args = parser.parse_args()
     # check cuda
@@ -180,7 +180,8 @@ def main():
     criterion = torch.nn.CrossEntropyLoss()
 
     if cuda:
-        net = torch.nn.DataParallel(net, device_ids=args.gpus)
+        ctx = [int(id) for id in args.gpus.split(',')]
+        net = torch.nn.DataParallel(net, device_ids=ctx)
         cudnn.benchmark = True
         net, criterion = net.cuda(), criterion.cuda()
     # early stopping parameters
